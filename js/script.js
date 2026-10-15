@@ -69,9 +69,40 @@
     .replace(/^@/, "")
     .replace(/[/?#].*$/, "");
 
+  // O número só vale se estiver preenchido de verdade (não o exemplo 5500000000000)
+  var temNumeroWhats = numeroWhats.length >= 10 && !/^550+$/.test(numeroWhats);
+  var linkDiretoWhats = String(CONTATO.linkWhatsapp || "").trim();
   function linkWhatsApp(mensagem) {
+    // Sem número, usa o link da conta comercial (ele não aceita texto pronto)
+    if (!temNumeroWhats && linkDiretoWhats) return linkDiretoWhats;
     var texto = mensagem ? "?text=" + encodeURIComponent(mensagem) : "";
     return "https://wa.me/" + numeroWhats + texto;
+  }
+  // O pedido só chega escrito na conversa quando o link é pelo número
+  var whatsAceitaTexto = temNumeroWhats || !linkDiretoWhats;
+
+  // Copia um texto para a área de transferência (usado no envio do pedido)
+  function copiarTexto(texto) {
+    try {
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(texto).catch(function () { copiarTextoAntigo(texto); });
+        return;
+      }
+    } catch (e) { /* tenta do jeito antigo */ }
+    copiarTextoAntigo(texto);
+  }
+  function copiarTextoAntigo(texto) {
+    var area = document.createElement("textarea");
+    area.value = texto;
+    area.setAttribute("readonly", "");
+    area.style.position = "fixed";
+    area.style.top = "0";
+    area.style.opacity = "0";
+    document.body.appendChild(area);
+    area.select();
+    area.setSelectionRange(0, texto.length);
+    try { document.execCommand("copy"); } catch (e) { /* sem cópia */ }
+    document.body.removeChild(area);
   }
   var linkInstagram = usuarioInsta ? "https://www.instagram.com/" + usuarioInsta + "/" : "https://www.instagram.com/";
 
@@ -84,7 +115,7 @@
   }
 
   // Lembretes para quem está configurando (aparecem só no console, F12)
-  if (!numeroWhats || /^550+$/.test(numeroWhats)) console.warn("[Config] Troque o número do WhatsApp em js/config.js");
+  if (!temNumeroWhats && !linkDiretoWhats) console.warn("[Config] Coloque o link ou o número do WhatsApp em js/config.js");
   if (!usuarioInsta || usuarioInsta === "seu.perfil.aqui") console.warn("[Config] Troque o Instagram em js/config.js");
 
   /* ------------------------------------------------------------------------
@@ -167,14 +198,15 @@
     return escapar(partes.join(" ")) + " <span>" + escapar(ultima) + "</span>";
   }
   $$("[data-brand]").forEach(function (el) { el.innerHTML = nomeComDestaque(nomeLoja); });
-  document.title = document.title.replace("Delivery do Frango", nomeLoja);
+  document.title = document.title.replace("Mil Frangos e Assados", nomeLoja);
 
   var mensagemPadrao = CONTATO.mensagemWhatsapp || "";
   $$('[data-link="whatsapp"]').forEach(function (a) {
     a.href = linkWhatsApp(a.getAttribute("data-msg") || mensagemPadrao);
   });
   $$('[data-link="instagram"]').forEach(function (a) { a.href = linkInstagram; });
-  $$("[data-whatsapp-exibicao]").forEach(function (el) { el.textContent = telefoneBonito(numeroWhats); });
+  $$("[data-whatsapp-exibicao]").forEach(function (el) { el.textContent = temNumeroWhats ? (CONTATO.telefoneExibicao || telefoneBonito(numeroWhats)) : nomeLoja; });
+  $$("[data-aviso-copia]").forEach(function (el) { el.hidden = whatsAceitaTexto; });
   $$("[data-instagram-exibicao]").forEach(function (el) { el.textContent = usuarioInsta ? "@" + usuarioInsta : "Instagram"; });
 
   // Endereço (opcional)
@@ -339,14 +371,15 @@
       '<article class="card__inner">' +
         '<div class="card__media">' +
           '<img data-card-img alt="Foto ilustrativa: ' + escapar(item.nome) + '" width="400" height="300" loading="lazy" decoding="async">' +
-          '<span class="card__tag">' + (meio ? "Meio frango" : "Inteiro") + "</span>" +
+          '<span class="card__tag">' + (item.etiqueta ? escapar(item.etiqueta) : (meio ? "Meio frango" : "Inteiro")) + "</span>" +
           (item.selo ? '<span class="card__selo">' + escapar(item.selo) + "</span>" : "") +
           '<span class="card__check">' + icone("check-lg") + "No pedido</span>" +
         "</div>" +
         '<div class="card__body">' +
           '<h3 class="card__title">' + escapar(item.nome) + "</h3>" +
           (item.descricao ? '<p class="card__desc">' + escapar(item.descricao) + "</p>" : "") +
-          '<ul class="card__opts">' + opcao(item.recheio, "recheio") + opcao(item.batata, "batatas") + "</ul>" +
+          '<ul class="card__opts">' + opcao(item.recheio, "recheio") + opcao(item.batata, "batata") +
+            (typeof item.farinha === "boolean" ? opcao(item.farinha, "farinha") : "") + "</ul>" +
           '<div class="card__foot">' +
             '<p class="price' + (comPreco ? "" : " price--consulte") + '"><span class="price__label">Preço</span>' +
             '<span class="price__value">' + (comPreco ? dinheiro(item.preco) : "Consulte") + "</span></p>" +
@@ -673,8 +706,16 @@
     if (erroEndereco) erroEndereco.hidden = true;
     if (entradaEndereco) entradaEndereco.classList.remove("is-invalid");
 
-    window.open(linkWhatsApp(montarMensagem(dados)), "_blank", "noopener");
-    avisar("Abrindo o WhatsApp com o seu pedido");
+    var mensagem = montarMensagem(dados);
+    if (whatsAceitaTexto) {
+      window.open(linkWhatsApp(mensagem), "_blank", "noopener");
+      avisar("Abrindo o WhatsApp com o seu pedido");
+    } else {
+      // O link da conta comercial não leva texto: o pedido é copiado para o cliente colar
+      copiarTexto(mensagem);
+      window.open(linkWhatsApp(), "_blank", "noopener");
+      avisar("Pedido copiado! No WhatsApp, é só colar e enviar");
+    }
   }
 
   var botaoLimpar = $("[data-limpar-pedido]");
@@ -826,7 +867,7 @@
       servesCuisine: ["Frango assado", "Comida brasileira"],
       url: location.href.split("#")[0],
       image: urlImagem(IMAGENS.topo, 1200, 0.75),
-      telephone: numeroWhats ? "+" + numeroWhats : undefined,
+      telephone: CONTATO.telefoneExibicao ? "+55" + String(CONTATO.telefoneExibicao).replace(/\D/g, "") : (temNumeroWhats ? "+" + numeroWhats : undefined),
       sameAs: usuarioInsta ? [linkInstagram] : undefined,
       address: endereco ? { "@type": "PostalAddress", streetAddress: endereco, addressCountry: "BR" } : undefined,
       openingHoursSpecification: HORARIOS.map(function (h) {

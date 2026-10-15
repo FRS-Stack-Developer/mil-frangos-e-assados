@@ -1,12 +1,11 @@
-# Delivery do Frango
+# Mil Frangos e Assados
 
 Página de divulgação (landing page) de uma loja de frango assado que funciona aos **sábados e domingos**.
 Feita em HTML, CSS e JavaScript puros, sem banco de dados e sem servidor, pronta para o **GitHub Pages**.
 
 O cliente consegue:
 
-- ver as fotos e o cardápio completo (frango inteiro ou meio, com ou sem recheio, com ou sem batatas);
-- filtrar as opções no bloco "Monte o seu frango";
+- ver as fotos e o cardápio (frango com recheio de bacon e linguiça, galeto e frango com batata);
 - adicionar itens e enviar o **pedido pronto pelo WhatsApp** (itens, quantidades, total, entrega ou retirada);
 - ver se a loja está **aberta agora** (calculado pelo horário de Brasília);
 - abrir o Instagram e o endereço no Google Maps.
@@ -39,8 +38,10 @@ Mantenha as aspas `"..."` e as vírgulas no fim das linhas. Salve e atualize a p
 
 | O que trocar | Onde, no `config.js` | Exemplo |
 |---|---|---|
-| Nome da loja | `loja.nome` | `"Delivery do Frango"` |
-| WhatsApp | `contato.whatsapp` | `"5531987654321"` (55 + DDD + número, só números) |
+| Nome da loja | `loja.nome` | `"Mil Frangos e Assados"` |
+| Link do WhatsApp | `contato.linkWhatsapp` | `"https://wa.me/message/WJ3HN3EJOJ66M1"` (link do QR Code da conta comercial) |
+| Número do WhatsApp | `contato.whatsapp` | `"553175576178"` (só números, do jeito que o WhatsApp reconhece a conta: a da loja é SEM o 9 da frente) |
+| Telefone escrito no site | `contato.telefoneExibicao` | `"(31) 97557-6178"` |
 | Mensagem inicial do WhatsApp | `contato.mensagemWhatsapp` | `"Olá! Vim pelo site..."` |
 | Instagram | `contato.instagram` | `"frangodofulano"` (sem @ e sem link) |
 | Endereço e mapa | `contato.endereco` e `contato.linkMapa` | deixe `""` para esconder |
@@ -53,7 +54,7 @@ Mantenha as aspas `"..."` e as vírgulas no fim das linhas. Salve e atualize a p
 
 ### Preços
 
-Os preços estão como `null` e aparecem como **"Consulte"**. Quando tiver os valores, troque por número:
+Cada item tem o seu `preco`. Para mudar, troque o número (com ponto, sem R$). Se deixar `null`, o item aparece como **"Consulte"**:
 
 ```js
 preco: 59.90,
@@ -104,7 +105,7 @@ Dê dois cliques no `index.html`. Ele abre no navegador e funciona normalmente (
 ## Publicar no GitHub Pages (grátis)
 
 1. Crie uma conta em [github.com](https://github.com) (se ainda não tiver).
-2. Clique em **New repository**, dê um nome (ex.: `delivery-do-frango`), deixe **Public** e clique em **Create repository**.
+2. Clique em **New repository**, dê um nome (ex.: `mil-frangos-e-assados`), deixe **Public** e clique em **Create repository**.
 3. Na tela do repositório, clique em **uploading an existing file**.
 4. Arraste **todo o conteúdo desta pasta** (o `index.html` e as pastas `css`, `js`, `images`, `fonts`, além dos demais arquivos).
    O `index.html` precisa ficar na raiz, não dentro de outra pasta.
@@ -112,20 +113,21 @@ Dê dois cliques no `index.html`. Ele abre no navegador e funciona normalmente (
 6. Vá em **Settings > Pages**. Em **Build and deployment**, escolha **Source: Deploy from a branch**,
    depois **Branch: main** e pasta **/ (root)**. Clique em **Save**.
 7. Aguarde 1 ou 2 minutos. O endereço aparece no topo dessa mesma tela, no formato:
-   `https://SEU-USUARIO.github.io/delivery-do-frango/`
+   `https://SEU-USUARIO.github.io/mil-frangos-e-assados/`
 
 Para atualizar depois: edite o arquivo no próprio GitHub (lápis) ou envie de novo pelo **Add file > Upload files**.
 As mudanças entram no ar em cerca de 1 minuto.
 
-Opcional: em **Settings > Pages > Custom domain** dá para usar um domínio próprio (ex.: `www.deliverydofrango.com.br`).
+Opcional: em **Settings > Pages > Custom domain** dá para usar um domínio próprio (ex.: `www.milfrangoseassados.com.br`).
 
 ---
 
 ## Checklist antes de divulgar
 
-- [ ] Número do WhatsApp em `contato.whatsapp`
-- [ ] Perfil do Instagram em `contato.instagram`
-- [ ] Preços em cada item do `cardapio`
+- [x] Link do WhatsApp em `contato.linkWhatsapp`
+- [x] Número do WhatsApp em `contato.whatsapp`
+- [x] Perfil do Instagram em `contato.instagram`
+- [x] Preços em cada item do `cardapio`
 - [ ] Horários conferidos em `funcionamento.horarios`
 - [ ] Endereço e link do mapa conferidos
 - [ ] Fotos reais (recomendado)
@@ -156,11 +158,6 @@ e aparecem apenas para indicar os links.
 | Destaque | Amanda Lim, [Unsplash](https://unsplash.com/photos/e_A-SFvqV08) |
 | Batatas do destaque | [Pexels 29640883](https://www.pexels.com/photo/29640883/) |
 | Seção de horários | [Pexels 13458086](https://www.pexels.com/photo/13458086/) |
-| Inteiro com recheio + batatas | [Pexels 10821324](https://www.pexels.com/photo/10821324/) |
-| Inteiro com recheio sem batatas | Anshu A, [Unsplash](https://unsplash.com/photos/BhnZwPW_tIc) |
-| Inteiro sem recheio + batatas | [Pexels 5956831](https://www.pexels.com/photo/5956831/) |
-| Inteiro sem recheio e sem batatas | Claudio Schwarz, [Unsplash](https://unsplash.com/photos/4qJlXK4mYzU) |
-| Meio com recheio + batatas | [Pexels 4589138](https://www.pexels.com/photo/4589138/) |
-| Meio com recheio sem batatas | [Pexels 27643014](https://www.pexels.com/photo/27643014/) |
-| Meio sem recheio + batatas | chaewon you, [Unsplash](https://unsplash.com/photos/o56vOzhRzUY) |
-| Meio sem recheio e sem batatas | [Pexels 8408989](https://www.pexels.com/photo/8408989/) |
+| Frango com recheio, batata e farinha | [Pexels 10821324](https://www.pexels.com/photo/10821324/) |
+| Frango galeto com batata e farinha | [Pexels 5956831](https://www.pexels.com/photo/5956831/) |
+| Frango com batata | chaewon you, [Unsplash](https://unsplash.com/photos/o56vOzhRzUY) |

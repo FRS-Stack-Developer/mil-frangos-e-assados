@@ -17,7 +17,7 @@ window.CONFIG = {
      1) LOJA
      ------------------------------------------------------------------------ */
   loja: {
-    nome: "Delivery do Frango",
+    nome: "Mil Frangos e Assados",
     // Frase curta usada no rodapé e no topo do cardápio
     slogan: "Frango assado de verdade, só aos fins de semana.",
   },
@@ -26,16 +26,26 @@ window.CONFIG = {
      2) CONTATO E REDES SOCIAIS
      ------------------------------------------------------------------------ */
   contato: {
-    // WhatsApp: 55 (Brasil) + DDD + número. SÓ NÚMEROS, sem espaço ou traço.
-    // Exemplo: (31) 98765-4321  vira  "5531987654321"
-    whatsapp: "5531000000000",
+    // Link do WhatsApp da loja (o mesmo do QR Code da conta comercial).
+    // Todos os botões de WhatsApp do site abrem este link.
+    linkWhatsapp: "https://wa.me/message/WJ3HN3EJOJ66M1",
 
-    // Mensagem que já aparece escrita quando o cliente clica nos botões
+    // Número do WhatsApp do jeito que o WhatsApp reconhece a conta. SÓ NÚMEROS.
+    // ATENÇÃO: a conta da loja está registrada SEM o 9 da frente
+    // (553175576178). Foi o próprio link do QR Code que mostrou isso.
+    // Com o 9 (5531975576178) o link não encontra a conta.
+    // Com o número preenchido, o pedido do carrinho já chega escrito na conversa.
+    whatsapp: "553175576178",
+
+    // Como o telefone aparece escrito no site (pode ter o 9 normalmente)
+    telefoneExibicao: "(31) 97557-6178",
+
+    // Mensagem que já aparece escrita ao clicar nos botões (só com o número)
     mensagemWhatsapp: "Olá! Vim pelo site e gostaria de fazer um pedido.",
 
     // Instagram: só o nome do perfil, sem o @ e sem o link.
     // Exemplo: para instagram.com/frangodofulano, escreva "frangodofulano"
-    instagram: "seu.perfil.aqui",
+    instagram: "mil_frangos",
 
     // Endereço (opcional). Se deixar vazio "", ele não aparece no site.
     endereco: "Rua Rio das Velhas, 1310, Santa Luzia",
@@ -81,7 +91,7 @@ window.CONFIG = {
     heroSubtitulo: "Frango assado douradinho, crocante por fora e suculento por dentro, com batatas assadas no ponto. Do forno direto para a sua mesa.",
 
     cardapioTitulo: "Nosso Cardápio",
-    cardapioSubtitulo: "Frango inteiro ou meio frango, com ou sem recheio, com ou sem batatas. Escolha do jeito que a sua família gosta.",
+    cardapioSubtitulo: "Três opções caprichadas, todas com batata: frango com recheio de bacon e linguiça assada, galeto e o nosso frango com batata.",
 
     destaqueTitulo: "Frango assado, douradinho por fora, suculento por dentro e *cheio de sabor!*",
     destaqueTexto: "Temperado com carinho e assado sem pressa até a pele ficar dourada e crocante. Com batatas assadas do lado, é o almoço de fim de semana que a família inteira espera.",
@@ -114,85 +124,42 @@ window.CONFIG = {
      7) CARDÁPIO
      preco: use número com PONTO, sem R$. Exemplo: 59.90
             Deixe null enquanto não tiver o preço (aparece "Consulte").
-     tamanho: "inteiro" ou "meio"
-     recheio / batata: true (com) ou false (sem)
+     etiqueta: texto pequeno que aparece em cima da foto
+     recheio / batata / farinha: true (com) ou false (sem)
      selo: etiqueta opcional na foto (ou "" para nenhuma)
      foco: opcional, ajusta o enquadramento da foto (ex.: "50% 30%")
      ------------------------------------------------------------------------ */
   cardapio: [
     {
-      id: "inteiro-recheio-batata",
-      nome: "Frango inteiro com recheio + batatas",
-      descricao: "Frango inteiro recheado, assado até dourar, com batatas assadas no ponto. O almoço da família resolvido.",
-      tamanho: "inteiro", recheio: true, batata: true,
-      preco: null,
+      id: "frango-recheio-batata-farinha",
+      nome: "Frango com recheio, batata e farinha",
+      descricao: "Frango assado recheado com bacon e linguiça assada, acompanhado de batata e farinha.",
+      etiqueta: "Recheado",
+      recheio: true, batata: true, farinha: true,
+      preco: 69.00,
       imagem: "https://images.pexels.com/photos/10821324/pexels-photo-10821324.jpeg",
       selo: "Mais completo",
     },
     {
-      id: "inteiro-recheio",
-      nome: "Frango inteiro com recheio sem batatas",
-      descricao: "Frango inteiro com o recheio da casa, douradinho por fora e suculento por dentro.",
-      tamanho: "inteiro", recheio: true, batata: false,
-      preco: null,
-      imagem: "https://images.unsplash.com/photo-1598103442097-8b74394b95c6",
-      selo: "",
-    },
-    {
-      id: "inteiro-batata",
-      nome: "Frango inteiro sem recheio + batatas",
-      descricao: "Frango inteiro no tempero da casa, pele crocante e batatas assadas douradinhas.",
-      tamanho: "inteiro", recheio: false, batata: true,
-      preco: null,
+      id: "galeto-batata-farinha",
+      nome: "Frango galeto com batata e farinha",
+      descricao: "Galeto assado no tempero da casa, pele dourada e crocante, acompanhado de batata e farinha.",
+      etiqueta: "Galeto",
+      recheio: false, batata: true, farinha: true,
+      preco: 39.00,
       imagem: "https://images.pexels.com/photos/5956831/pexels-photo-5956831.jpeg",
       selo: "",
       foco: "62% 58%",
     },
     {
-      id: "inteiro",
-      nome: "Frango inteiro sem recheio e sem batatas",
-      descricao: "O clássico da casa: frango inteiro assado, pele crocante e carne suculenta.",
-      tamanho: "inteiro", recheio: false, batata: false,
-      preco: null,
-      imagem: "https://images.unsplash.com/photo-1606728035253-49e8a23146de",
-      selo: "Clássico",
-    },
-    {
-      id: "meio-recheio-batata",
-      nome: "Meio frango com recheio + batatas",
-      descricao: "Meio frango com recheio e batatas assadas. Porção caprichada para 1 ou 2 pessoas.",
-      tamanho: "meio", recheio: true, batata: true,
-      preco: null,
-      imagem: "https://images.pexels.com/photos/4589138/pexels-photo-4589138.jpeg",
-      selo: "",
-    },
-    {
-      id: "meio-recheio",
-      nome: "Meio frango com recheio sem batatas",
-      descricao: "Meio frango recheado: todo o sabor do inteiro em uma porção menor.",
-      tamanho: "meio", recheio: true, batata: false,
-      preco: null,
-      imagem: "https://images.pexels.com/photos/27643014/pexels-photo-27643014.jpeg",
-      selo: "",
-    },
-    {
-      id: "meio-batata",
-      nome: "Meio frango sem recheio + batatas",
-      descricao: "Meio frango assado com batatas douradinhas. Prático, gostoso e na medida certa.",
-      tamanho: "meio", recheio: false, batata: true,
-      preco: null,
+      id: "frango-batata",
+      nome: "Frango com batata",
+      descricao: "Frango assado no tempero da casa, pele crocante e carne suculenta, acompanhado de batata.",
+      etiqueta: "Tradicional",
+      recheio: false, batata: true, farinha: false,
+      preco: 50.00,
       imagem: "https://images.unsplash.com/photo-1742455259385-654d727825f1",
       selo: "",
-    },
-    {
-      id: "meio",
-      nome: "Meio frango sem recheio e sem batatas",
-      descricao: "Meio frango assado no ponto, simples e cheio de sabor.",
-      tamanho: "meio", recheio: false, batata: false,
-      preco: null,
-      imagem: "https://images.pexels.com/photos/8408989/pexels-photo-8408989.jpeg",
-      selo: "",
-      foco: "30% 50%",
     },
   ],
 };

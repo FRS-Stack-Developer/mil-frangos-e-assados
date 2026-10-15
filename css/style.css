@@ -1,5 +1,5 @@
 /* ==========================================================================
-   DELIVERY DO FRANGO | Estilos
+   MIL FRANGOS E ASSADOS | Estilos
    Organização:
    01. Fontes            07. Cardápio          13. Botão flutuante WhatsApp
    02. Cores e medidas   08. Destaque          14. Barra e painel do pedido
@@ -1226,6 +1226,18 @@ p { text-wrap: pretty; }
 }
 @media (min-width: 1024px) {
   .menu-grid { grid-template-columns: repeat(4, 1fr); gap: 22px; }
+}
+
+/* Cardápio com poucos itens: os cards ficam centralizados na linha */
+@media (min-width: 560px) {
+  .menu-grid { display: flex; flex-wrap: wrap; justify-content: center; }
+  .menu-grid > .card { flex: 0 1 calc((100% - 20px) / 2); min-width: 0; }
+}
+@media (min-width: 900px) {
+  .menu-grid > .card { flex-basis: calc((100% - 40px) / 3); }
+}
+@media (min-width: 1024px) {
+  .menu-grid > .card { flex-basis: calc((100% - 66px) / 4); }
 }
 
 /* 08. DESTAQUE ------------------------------------------------------------ */

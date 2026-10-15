@@ -1,6 +1,6 @@
 {
-  "name": "Delivery do Frango",
-  "short_name": "Frango",
+  "name": "Mil Frangos e Assados",
+  "short_name": "Mil Frangos",
   "description": "Frango assado aos sábados e domingos. Peça pelo WhatsApp.",
   "start_url": "./",
   "display": "standalone",
